@@ -159,7 +159,7 @@ sing-sing-refrigerator/
 ### 🎉 이제 바로 사용해 보세요!  
 
 ```
-https://<YOUR_USERNAME>.github.io/sing-sing-refrigerator/
+[https://chohyunmin-822.github.io/2026130551-/]
 ```  
 
 위 URL을 브라우저에 넣으면 **싱싱냉장고**가 바로 열립니다. 즐거운 식재료 관리!  
