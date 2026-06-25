@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>싱싱냉장고 - 식재료 유통기한 관리</title>
+  <!-- Google Fonts: Playfair Display for headers, Inter for UI -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="header-logo">
+        <span class="logo-emoji">🌱</span>
+        <div class="logo-text">
+          <h1>싱싱냉장고</h1>
+          <p class="subtitle">자취생과 주부들을 위한 식자재 유통기한 도우미</p>
+        </div>
+      </div>
+      <div class="header-meta">
+        <div class="meta-item">
+          <span class="meta-label">기준 일자</span>
+          <span class="meta-val" id="current-date-display">2026년 06월 25일</span>
+        </div>
+        <div class="meta-item">
+          <button class="btn btn-primary" id="btn-import-csv">CSV 불러오기</button>
+          <button class="btn btn-primary" id="btn-export-csv">CSV 내보내기</button>
+          <input type="file" id="csv-file-input" accept=".csv" style="display:none;" />
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content Layout -->
+    <main class="app-content">
+      
+      <!-- Left Side: List, Filter, Search -->
+      <section class="list-section">
+        <div class="search-filter-bar">
+          <!-- Search Box -->
+          <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="search-input" placeholder="식재료 이름을 검색하세요..." autocomplete="off">
+          </div>
+          <!-- Filter Tabs -->
+          <div class="filter-tabs">
+            <button class="tab-btn active" id="tab-all">전체 품목 <span class="tab-count" id="count-all">0</span></button>
+            <button class="tab-btn" id="tab-imminent">임박/경과 <span class="tab-count badge-warning" id="count-imminent">0</span></button>
+          </div>
+        </div>
+
+        <!-- Ingredients List Container -->
+        <div class="ingredients-list-wrapper">
+          <div class="ingredients-list" id="ingredients-list">
+            <!-- Dynamic cards will be rendered here -->
+            <div class="loading-state">식재료 정보를 불러오는 중입니다...</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Side: Form (Add / Edit) -->
+      <section class="form-section">
+        <div class="card form-card">
+          <div class="form-header">
+            <h2 id="form-title">식재료 추가</h2>
+            <p class="form-subtitle" id="form-desc">새로운 식재료 정보를 등록합니다.</p>
+          </div>
+          <form id="ingredient-form" onsubmit="return false;">
+            <input type="hidden" id="edit-id" value="">
+            
+            <div class="form-group">
+              <label for="input-name">식재료 이름</label>
+              <div class="input-wrapper">
+                <input type="text" id="input-name" required placeholder="예: 우유, 방울토마토, 두부" autocomplete="off">
+              </div>
+            </div>
+
+            <div class="form-group-row">
+              <div class="form-group">
+                <label for="input-count">수량 (개/팩)</label>
+                <div class="number-input-wrapper">
+                  <button type="button" class="num-btn" id="btn-minus">−</button>
+                  <input type="number" id="input-count" required min="1" value="1">
+                  <button type="button" class="num-btn" id="btn-plus">+</button>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="input-exp">유통기한</label>
+                <div class="input-wrapper">
+                  <input type="date" id="input-exp" required value="2026-06-25">
+                </div>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="button" class="btn btn-secondary" id="btn-cancel" style="display: none;">취소</button>
+              <button type="submit" class="btn btn-primary" id="btn-submit">등록하기</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Refrigerator Status Summary -->
+        <div class="card summary-card">
+          <h3>냉장고 현황</h3>
+          <div class="summary-grid">
+            <div class="summary-box">
+              <span class="summary-num color-normal" id="summary-total">0</span>
+              <span class="summary-label">보관 품목</span>
+            </div>
+            <div class="summary-box alert-box" id="summary-imminent-box">
+              <span class="summary-num color-alert" id="summary-imminent">0</span>
+              <span class="summary-label">임박 (3일 이내)</span>
+            </div>
+            <div class="summary-box danger-box" id="summary-expired-box">
+              <span class="summary-num color-danger" id="summary-expired">0</span>
+              <span class="summary-label">만료 (기한 지남)</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>
